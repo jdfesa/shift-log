@@ -43,7 +43,7 @@ The system interprets your intent using a **local LLM** (via Ollama), executes t
 
 - 🗣️ **Natural language interface** — No rigid commands, just talk
 - 🌙 **Dark mode UI** — Obsidian/Notion-inspired design
-- 🧠 **Local LLM** — Powered by Ollama, 100% private, no API costs
+- 🧠 **Dual LLM support** — Local (Ollama) or Cloud (Groq) with in-app toggle, switchable in real-time
 - 📅 **Schedule management** — Fixed class schedules per semester
 - ✅ **Task lifecycle** — States: `pending` → `in progress` → `completed` / `overdue`
 - 🗓️ **Weekly Schedule Modal** — Quick access to a full, paginated table of your classes (IES 6023, UNSa, etc.)

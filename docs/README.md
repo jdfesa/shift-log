@@ -14,6 +14,7 @@ Documentación completa del proyecto en español.
 | [Guía de Carga de Datos](carga_de_datos.md) | Cómo poblar manualmente la base de datos (Python, UI o SQL) con las materias fijas del semestre |
 | [Guía de Instalación y Uso](instalacion_y_uso.md) | Requisitos previos, instalación paso a paso, y primeros pasos |
 | [Lógica Conversacional](logica_conversacional.md) | Cómo funciona el system prompt, el parsing de intenciones, y el flujo completo |
+| [Proveedores de LLM](proveedores_llm.md) | Cómo funciona el toggle Ollama/Groq, configuración, y obtención de API key |
 
 ---
 
