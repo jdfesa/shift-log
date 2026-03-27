@@ -60,6 +60,19 @@ async def process_intent(intent: dict) -> str:
     if accion == "error":
         return f"⚠️ {datos.get('mensaje', 'Ocurrió un error inesperado.')}"
 
+    # ── Fallback: corregir clasificación errónea del LLM ──
+    raw_msg = intent.get("_raw_message", "")
+    if raw_msg and accion == "consultar_horarios":
+        msg_norm = ''.join(c for c in unicodedata.normalize('NFD', raw_msg) if unicodedata.category(c) != 'Mn').lower()
+        task_keywords = ["exposicion", "parcial", "tp ", " tp", "entrega", "recordar", "agregar", "cargar", "anotar"]
+        if any(kw in msg_norm for kw in task_keywords):
+            # El LLM se confundió: reclasificar como crear_tarea
+            accion = "crear_tarea"
+            intent["accion"] = "crear_tarea"
+            # Intentar extraer título del mensaje original
+            if not datos.get("titulo"):
+                datos["titulo"] = raw_msg.strip()
+
     if accion == "saludo":
         import random
         return random.choice(SALUDOS)
