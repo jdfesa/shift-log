@@ -579,8 +579,8 @@ body {
 .modal-body {
     padding: 20px;
     overflow-y: auto;
-    height: 620px;
-    max-height: 75vh;
+    height: 700px;
+    max-height: 85vh;
     display: flex;
     flex-direction: column;
 }
