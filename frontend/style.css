@@ -624,3 +624,126 @@ body {
     cursor: default;
     font-weight: 600;
 }
+
+/* ── Tasks Modal Components ────────────────── */
+
+.tasks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.task-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    transition: var(--transition);
+}
+
+.task-card:hover {
+    border-color: var(--border);
+    background: var(--bg-hover);
+}
+
+.task-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    gap: 12px;
+}
+
+.task-card-header h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.task-card-body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.task-desc {
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    white-space: pre-wrap;
+}
+
+.task-date {
+    font-size: 12px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+}
+
+/* ── Badges ────────────────────────────────── */
+
+.badge {
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+}
+
+/* Estados */
+.badge-estado-pendiente {
+    background: rgba(134, 134, 139, 0.15);
+    color: #a1a1a6;
+    border: 1px solid rgba(134, 134, 139, 0.3);
+}
+
+.badge-estado-en_proceso {
+    background: rgba(94, 92, 230, 0.15);
+    color: var(--accent);
+    border: 1px solid rgba(94, 92, 230, 0.3);
+}
+
+.badge-estado-completada {
+    background: rgba(50, 215, 75, 0.15);
+    color: var(--success);
+    border: 1px solid rgba(50, 215, 75, 0.3);
+}
+
+.badge-estado-atrasada {
+    background: rgba(255, 69, 58, 0.15);
+    color: var(--danger);
+    border: 1px solid rgba(255, 69, 58, 0.3);
+}
+
+/* Prioridades */
+.badge-prioridad-alta {
+    background: rgba(255, 159, 10, 0.15);
+    color: var(--warning);
+}
+
+.badge-prioridad-media {
+    background: var(--bg-input);
+    color: var(--text-secondary);
+}
+
+.badge-prioridad-baja {
+    background: var(--bg-input);
+    color: var(--text-muted);
+}
+
+/* Materia */
+.badge-materia {
+    background: rgba(255, 255, 255, 0.05);
+    color: #e0e0e0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}

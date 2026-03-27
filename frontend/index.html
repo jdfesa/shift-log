@@ -22,6 +22,7 @@
                     <h1 class="logo-text">Shift Log</h1>
                 </div>
                 <div class="header-actions">
+                    <button id="btn-tasks" class="header-btn">Tasks</button>
                     <button id="btn-schedule" class="header-btn">Schedule</button>
                     <span class="header-badge">personal</span>
                 </div>
@@ -79,6 +80,19 @@
             </div>
             <div class="modal-body" id="schedule-table-container">
                 <!-- Table will be injected here via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Tasks Modal -->
+    <div id="tasks-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Tasks</h2>
+                <button id="close-tasks-btn" aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="modal-body" id="tasks-container">
+                <!-- Tasks will be injected here via JS -->
             </div>
         </div>
     </div>

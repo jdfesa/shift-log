@@ -263,3 +263,81 @@ window.goToSchedulePage = function(index) {
     currentInstIndex = index;
     renderSchedulePage();
 };
+
+// ── Tasks Modal Logic ─────────────────────────
+const btnTasks = document.getElementById('btn-tasks');
+const tasksModal = document.getElementById('tasks-modal');
+const closeTasksBtn = document.getElementById('close-tasks-btn');
+const tasksContainer = document.getElementById('tasks-container');
+
+function openTasksModal() {
+    tasksModal.classList.add('visible');
+    fetchTasks();
+}
+
+function closeTasksModal() {
+    tasksModal.classList.remove('visible');
+}
+
+btnTasks.addEventListener('click', openTasksModal);
+closeTasksBtn.addEventListener('click', closeTasksModal);
+tasksModal.addEventListener('click', (e) => {
+    if (e.target === tasksModal) closeTasksModal();
+});
+
+const estadoI18n = {
+    'pendiente': 'Pending',
+    'en_proceso': 'In Progress',
+    'completada': 'Completed',
+    'atrasada': 'Overdue'
+};
+
+const prioridadI18n = {
+    'alta': 'High',
+    'media': 'Medium',
+    'baja': 'Low'
+};
+
+async function fetchTasks() {
+    tasksContainer.innerHTML = '<div class="typing-indicator" style="justify-content:center; padding: 40px"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';
+    
+    try {
+        const res = await fetch('/api/tareas');
+        if (!res.ok) throw new Error('Error Loading Tasks');
+        const data = await res.json();
+        
+        if (data.length === 0) {
+            tasksContainer.innerHTML = '<div class="empty-state"><div class="empty-state-icon">✅</div><p>No active tasks. You are all caught up!</p></div>';
+            return;
+        }
+        
+        let html = '<div class="tasks-list">';
+        
+        for (const task of data) {
+            let descHtml = task.descripcion ? `<p class="task-desc">${task.descripcion}</p>` : '';
+            let dateHtml = task.fecha_limite ? `<span class="task-date">📅 ${task.fecha_limite}</span>` : '';
+            let subjectBadge = task.materia ? `<span class="badge badge-materia">📚 ${task.materia}</span>` : '';
+            
+            html += `
+            <div class="task-card">
+               <div class="task-card-header">
+                   <h4>${task.titulo}</h4>
+                   <span class="badge badge-estado-${task.estado}">${estadoI18n[task.estado] || task.estado}</span>
+               </div>
+               <div class="task-card-body">
+                   ${subjectBadge}
+                   <span class="badge badge-prioridad-${task.prioridad}">🔥 ${prioridadI18n[task.prioridad] || task.prioridad}</span>
+                   ${dateHtml}
+               </div>
+               ${descHtml}
+            </div>`;
+        }
+        
+        html += '</div>';
+        tasksContainer.innerHTML = html;
+        
+    } catch (e) {
+        tasksContainer.innerHTML = '<div class="empty-state"><p>⚠️ Error loading tasks.</p></div>';
+        console.error(e);
+    }
+}
