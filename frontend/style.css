@@ -580,6 +580,8 @@ body {
     padding: 20px;
     overflow-y: auto;
     min-height: 480px;
+    display: flex;
+    flex-direction: column;
 }
 
 .modal-body::-webkit-scrollbar {
@@ -641,7 +643,8 @@ body {
 }
 
 .schedule-pagination {
-    margin-top: 24px;
+    margin-top: auto;
+    padding-top: 24px;
     display: flex;
     justify-content: center;
 }
