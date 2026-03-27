@@ -10,45 +10,49 @@ def _rows_to_dicts(rows):
 def mark_overdue_tasks():
     """Marca como 'atrasada' cualquier tarea cuya fecha_limite haya pasado."""
     conn = get_db_connection()
-    conn.execute("""
-        UPDATE tareas
-        SET estado = 'atrasada', updated_at = datetime('now', 'localtime')
-        WHERE fecha_limite < date('now', 'localtime')
-          AND estado IN ('pendiente', 'en_proceso')
-    """)
-    conn.commit()
-    conn.close()
+    try:
+        conn.execute("""
+            UPDATE tareas
+            SET estado = 'atrasada', updated_at = datetime('now', 'localtime')
+            WHERE fecha_limite < date('now', 'localtime')
+              AND estado IN ('pendiente', 'en_proceso')
+        """)
+        conn.commit()
+    finally:
+        conn.close()
 
 
 def get_horarios(dia: str = None):
     """Obtiene horarios. Si se pasa un día, filtra por ese día."""
     conn = get_db_connection()
-    if dia:
-        rows = conn.execute("""
-            SELECT h.*, m.nombre AS materia, m.institucion
-            FROM horarios h
-            JOIN materias m ON h.materia_id = m.id
-            WHERE LOWER(h.dia) = LOWER(?)
-            ORDER BY h.hora_inicio
-        """, (dia,)).fetchall()
-    else:
-        rows = conn.execute("""
-            SELECT h.*, m.nombre AS materia, m.institucion
-            FROM horarios h
-            JOIN materias m ON h.materia_id = m.id
-            ORDER BY
-                CASE LOWER(h.dia)
-                    WHEN 'lunes' THEN 1
-                    WHEN 'martes' THEN 2
-                    WHEN 'miercoles' THEN 3
-                    WHEN 'jueves' THEN 4
-                    WHEN 'viernes' THEN 5
-                    WHEN 'sabado' THEN 6
-                    WHEN 'domingo' THEN 7
-                END,
-                h.hora_inicio
-        """).fetchall()
-    conn.close()
+    try:
+        if dia:
+            rows = conn.execute("""
+                SELECT h.*, m.nombre AS materia, m.institucion
+                FROM horarios h
+                JOIN materias m ON h.materia_id = m.id
+                WHERE LOWER(h.dia) = LOWER(?)
+                ORDER BY h.hora_inicio
+            """, (dia,)).fetchall()
+        else:
+            rows = conn.execute("""
+                SELECT h.*, m.nombre AS materia, m.institucion
+                FROM horarios h
+                JOIN materias m ON h.materia_id = m.id
+                ORDER BY
+                    CASE LOWER(h.dia)
+                        WHEN 'lunes' THEN 1
+                        WHEN 'martes' THEN 2
+                        WHEN 'miercoles' THEN 3
+                        WHEN 'jueves' THEN 4
+                        WHEN 'viernes' THEN 5
+                        WHEN 'sabado' THEN 6
+                        WHEN 'domingo' THEN 7
+                    END,
+                    h.hora_inicio
+            """).fetchall()
+    finally:
+        conn.close()
     return _rows_to_dicts(rows)
 
 
@@ -109,9 +113,27 @@ def get_tareas(filtro_fecha: str = None, filtro_estado: str = None, materia: str
     query += " ORDER BY t.fecha_limite ASC NULLS LAST"
 
     conn = get_db_connection()
-    rows = conn.execute(query, params).fetchall()
-    conn.close()
+    try:
+        rows = conn.execute(query, params).fetchall()
+    finally:
+        conn.close()
     return _rows_to_dicts(rows)
+
+
+def check_duplicate_tarea(titulo: str, materia: str = None) -> bool:
+    """Verifica si ya existe una tarea con el mismo título y materia (si aplica) pendiente."""
+    conn = get_db_connection()
+    try:
+        query = "SELECT count(1) AS c FROM tareas t LEFT JOIN materias m ON t.materia_id = m.id WHERE LOWER(t.titulo) = LOWER(?)"
+        params = [titulo]
+        if materia:
+            query += " AND m.nombre LIKE ?"
+            params.append(f"%{materia}%")
+            
+        row = conn.execute(query, params).fetchone()
+        return row["c"] > 0
+    finally:
+        conn.close()
 
 
 def create_tarea(titulo: str, tipo: str, materia: str = None,
@@ -119,21 +141,23 @@ def create_tarea(titulo: str, tipo: str, materia: str = None,
                  prioridad: str = "media"):
     """Crea una nueva tarea."""
     conn = get_db_connection()
-    materia_id = None
+    try:
+        materia_id = None
 
-    if materia:
-        row = conn.execute(
-            "SELECT id FROM materias WHERE nombre LIKE ?", (f"%{materia}%",)
-        ).fetchone()
-        if row:
-            materia_id = row["id"]
+        if materia:
+            row = conn.execute(
+                "SELECT id FROM materias WHERE nombre LIKE ?", (f"%{materia}%",)
+            ).fetchone()
+            if row:
+                materia_id = row["id"]
 
-    conn.execute("""
-        INSERT INTO tareas (materia_id, titulo, tipo, estado, fecha_limite, descripcion, prioridad)
-        VALUES (?, ?, ?, 'pendiente', ?, ?, ?)
-    """, (materia_id, titulo, tipo, fecha_limite, descripcion, prioridad))
-    conn.commit()
-    conn.close()
+        conn.execute("""
+            INSERT INTO tareas (materia_id, titulo, tipo, estado, fecha_limite, descripcion, prioridad)
+            VALUES (?, ?, ?, 'pendiente', ?, ?, ?)
+        """, (materia_id, titulo, tipo, fecha_limite, descripcion, prioridad))
+        conn.commit()
+    finally:
+        conn.close()
     return {"titulo": titulo, "tipo": tipo, "estado": "pendiente"}
 
 
@@ -160,10 +184,12 @@ def update_tarea_estado(titulo: str = None, materia: str = None, nuevo_estado: s
 
     query += " LIMIT 1)"
 
-    cursor = conn.execute(query, params)
-    affected = cursor.rowcount
-    conn.commit()
-    conn.close()
+    try:
+        cursor = conn.execute(query, params)
+        affected = cursor.rowcount
+        conn.commit()
+    finally:
+        conn.close()
     return affected > 0
 
 
@@ -187,8 +213,10 @@ def delete_tarea(titulo: str = None, materia: str = None):
 
     query += " LIMIT 1)"
 
-    cursor = conn.execute(query, params)
-    affected = cursor.rowcount
-    conn.commit()
-    conn.close()
+    try:
+        cursor = conn.execute(query, params)
+        affected = cursor.rowcount
+        conn.commit()
+    finally:
+        conn.close()
     return affected > 0

@@ -119,6 +119,30 @@ body {
     border: 1px solid var(--border);
 }
 
+/* ── Header Actions ─────────────────────────── */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-btn {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 5px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.header-btn:hover {
+    background: var(--bg-hover);
+    border-color: var(--accent);
+}
+
 /* ── Chat Container ──────────────────────────── */
 
 #chat-container {
@@ -401,4 +425,171 @@ body {
 .empty-state-icon {
     font-size: 40px;
     margin-bottom: 12px;
+}
+
+/* ── Modal & Schedule Table ─────────────────── */
+
+.modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 250ms ease, visibility 250ms ease;
+}
+
+.modal.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: var(--bg-primary);
+    width: 90%;
+    max-width: 650px;
+    max-height: 85vh;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-light);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    transform: scale(0.95);
+    transition: transform 250ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal.visible .modal-content {
+    transform: scale(1);
+}
+
+.modal-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.modal-header h2 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+#close-modal-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 24px;
+    cursor: pointer;
+    line-height: 1;
+    transition: color var(--transition);
+}
+
+#close-modal-btn:hover {
+    color: var(--danger);
+}
+
+.modal-body {
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+.modal-body::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+}
+
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.schedule-table th, .schedule-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.schedule-table th {
+    background: var(--bg-primary);
+    font-weight: 600;
+    color: var(--text-secondary);
+    position: sticky;
+    top: -20px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.schedule-table tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.schedule-table .day-cell {
+    border-right: 1px solid var(--border-light);
+    vertical-align: top;
+    color: var(--accent);
+}
+
+.schedule-table .time-cell {
+    color: var(--text-muted);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.schedule-inst-header {
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.schedule-inst-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+}
+
+.schedule-pagination {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination-number-btn {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 4px;
+    transition: var(--transition);
+}
+
+.pagination-number-btn:hover {
+    background: var(--bg-hover);
+    border-color: var(--accent);
+}
+
+.pagination-number-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #ffffff;
+    cursor: default;
+    font-weight: 600;
 }

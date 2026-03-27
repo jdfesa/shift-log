@@ -19,7 +19,10 @@
                     <span class="logo-icon">⚡</span>
                     <h1>Shift Log</h1>
                 </div>
-                <span class="header-badge">personal</span>
+                <div class="header-actions">
+                    <button id="btn-schedule" class="header-btn">Schedule</button>
+                    <span class="header-badge">personal</span>
+                </div>
             </div>
         </header>
 
@@ -63,6 +66,19 @@
                 </div>
             </form>
         </footer>
+    </div>
+
+    <!-- Schedule Modal -->
+    <div id="schedule-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Weekly Schedule</h2>
+                <button id="close-modal-btn" aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="modal-body" id="schedule-table-container">
+                <!-- Table will be injected here via JS -->
+            </div>
+        </div>
     </div>
 
     <script src="/static/app.js"></script>

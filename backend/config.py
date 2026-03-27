@@ -22,12 +22,13 @@ Acciones posibles:
 - actualizar_estado: el usuario indica que terminó, empezó o quiere cambiar el estado de una tarea
 - eliminar_tarea: el usuario quiere borrar una tarea
 - saludo: el usuario saluda o dice algo casual
+- ayuda: el usuario pide ayuda, pregunta qué podés hacer, o cómo funciona el sistema
 
 Tipos de tarea: "tp", "parcial", "recordatorio", "otro"
 Estados posibles: "pendiente", "en_proceso", "completada"
 Prioridades: "alta", "media", "baja"
 Días de la semana: "lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"
-Filtros de fecha: "hoy", "mañana", "esta_semana", "proxima_semana", una fecha específica "YYYY-MM-DD"
+Filtros de fecha: "hoy", "mañana", "esta_semana", "proxima_semana", "todos", una fecha específica "YYYY-MM-DD"
 
 Formato de respuesta (SOLO JSON, sin markdown, sin backticks):
 {

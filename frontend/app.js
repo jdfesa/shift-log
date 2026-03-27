@@ -155,3 +155,106 @@ messageInput.addEventListener('keydown', (e) => {
 window.addEventListener('load', () => {
     messageInput.focus();
 });
+
+// ── Schedule Modal Logic ───────────────────────
+const btnSchedule = document.getElementById('btn-schedule');
+const scheduleModal = document.getElementById('schedule-modal');
+const closeModalBtn = document.getElementById('close-modal-btn');
+const scheduleTableContainer = document.getElementById('schedule-table-container');
+
+// Map for English translation
+const dayMap = {
+    'lunes': 'Monday',
+    'martes': 'Tuesday',
+    'miercoles': 'Wednesday',
+    'jueves': 'Thursday',
+    'viernes': 'Friday',
+    'sabado': 'Saturday',
+    'domingo': 'Sunday'
+};
+
+let scheduleData = [];
+let institutionsList = [];
+let currentInstIndex = 0;
+
+function openModal() {
+    scheduleModal.classList.add('visible');
+    fetchSchedule();
+}
+
+function closeModal() {
+    scheduleModal.classList.remove('visible');
+}
+
+btnSchedule.addEventListener('click', openModal);
+closeModalBtn.addEventListener('click', closeModal);
+scheduleModal.addEventListener('click', (e) => {
+    if (e.target === scheduleModal) closeModal();
+});
+
+async function fetchSchedule() {
+    scheduleTableContainer.innerHTML = '<div class="typing-indicator" style="justify-content:center; padding: 40px"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';
+    
+    try {
+        const res = await fetch('/api/horarios');
+        if (!res.ok) throw new Error('Error Loading Schedule');
+        scheduleData = await res.json();
+        
+        if (scheduleData.length === 0) {
+            scheduleTableContainer.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📅</div><p>No schedules loaded.</p></div>';
+            return;
+        }
+        
+        institutionsList = [...new Set(scheduleData.map(d => d.institucion || 'Institution'))];
+        currentInstIndex = 0;
+        
+        renderSchedulePage();
+    } catch (e) {
+        scheduleTableContainer.innerHTML = '<div class="empty-state"><p>⚠️ Error loading schedule data.</p></div>';
+        console.error(e);
+    }
+}
+
+function renderSchedulePage() {
+    const currentInst = institutionsList[currentInstIndex];
+    const pageData = scheduleData.filter(d => (d.institucion || 'Institution') === currentInst);
+    
+    let html = `<div class="schedule-inst-header">
+        <h3>${currentInst}</h3>
+    </div>`;
+    
+    html += '<table class="schedule-table"><thead><tr><th>Day</th><th>Time</th><th>Subject</th></tr></thead><tbody>';
+    
+    let currentDay = null;
+    for (const item of pageData) {
+        const englishDay = dayMap[item.dia] || item.dia;
+        let dayCell = '';
+        if (item.dia !== currentDay) {
+            const dayItemsCount = pageData.filter(d => d.dia === item.dia).length;
+            dayCell = `<td rowspan="${dayItemsCount}" class="day-cell"><strong>${englishDay}</strong></td>`;
+            currentDay = item.dia;
+        }
+        
+        html += `<tr>${dayCell}
+            <td class="time-cell">${item.hora_inicio} - ${item.hora_fin}</td>
+            <td>${item.materia}</td>
+        </tr>`;
+    }
+    html += '</tbody></table>';
+    
+    if (institutionsList.length > 1) {
+        html += `<div class="schedule-pagination">`;
+        institutionsList.forEach((inst, index) => {
+            const isActive = index === currentInstIndex ? 'active' : '';
+            html += `<button class="pagination-number-btn ${isActive}" onclick="goToSchedulePage(${index})" title="${inst}">${index + 1}</button>`;
+        });
+        html += `</div>`;
+    }
+    
+    scheduleTableContainer.innerHTML = html;
+}
+
+window.goToSchedulePage = function(index) {
+    currentInstIndex = index;
+    renderSchedulePage();
+};

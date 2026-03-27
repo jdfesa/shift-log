@@ -11,6 +11,7 @@ async def chat(request: ChatRequest):
     """Endpoint principal del chat. Recibe un mensaje, lo parsea con Ollama y ejecuta la acción."""
     # 1. Enviar mensaje a Ollama para parsear la intención
     intent = await query_ollama(request.message)
+    intent["_raw_message"] = request.message
 
     # 2. Procesar la intención y ejecutar la acción
     response_text = await process_intent(intent)
