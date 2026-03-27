@@ -24,7 +24,13 @@
                 <div class="header-actions">
                     <button id="btn-tasks" class="header-btn">Tasks</button>
                     <button id="btn-schedule" class="header-btn">Schedule</button>
-                    <span class="header-badge">personal</span>
+                    <div class="provider-toggle" id="provider-toggle" title="Switch LLM Provider">
+                        <span class="provider-label" data-provider="ollama">🏠</span>
+                        <div class="toggle-track">
+                            <div class="toggle-thumb"></div>
+                        </div>
+                        <span class="provider-label" data-provider="groq">☁️</span>
+                    </div>
                 </div>
             </div>
         </header>

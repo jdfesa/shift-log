@@ -341,3 +341,69 @@ async function fetchTasks() {
         console.error(e);
     }
 }
+
+// ── Provider Toggle Logic ─────────────────────
+const providerToggle = document.getElementById('provider-toggle');
+const toggleTrack = providerToggle.querySelector('.toggle-track');
+const labelOllama = providerToggle.querySelector('[data-provider="ollama"]');
+const labelGroq = providerToggle.querySelector('[data-provider="groq"]');
+
+let currentProvider = localStorage.getItem('llm_provider') || 'ollama';
+
+function updateToggleUI(provider) {
+    if (provider === 'groq') {
+        toggleTrack.classList.add('cloud');
+        labelGroq.classList.add('active');
+        labelOllama.classList.remove('active');
+    } else {
+        toggleTrack.classList.remove('cloud');
+        labelOllama.classList.add('active');
+        labelGroq.classList.remove('active');
+    }
+}
+
+async function initProvider() {
+    const savedKey = localStorage.getItem('groq_api_key') || '';
+    await fetch('/api/provider', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({provider: currentProvider, api_key: savedKey})
+    });
+    updateToggleUI(currentProvider);
+}
+
+providerToggle.addEventListener('click', async () => {
+    const newProvider = currentProvider === 'ollama' ? 'groq' : 'ollama';
+    
+    if (newProvider === 'groq') {
+        let storedKey = localStorage.getItem('groq_api_key');
+        if (!storedKey) {
+            storedKey = prompt('Enter your Groq API Key:\n(Get one free at console.groq.com → API Keys)');
+            if (!storedKey) return;
+            localStorage.setItem('groq_api_key', storedKey);
+        }
+        
+        const res = await fetch('/api/provider', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({provider: 'groq', api_key: storedKey})
+        });
+        const data = await res.json();
+        if (data.error) {
+            alert('Error: ' + data.error);
+            return;
+        }
+    } else {
+        await fetch('/api/provider', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({provider: 'ollama'})
+        });
+    }
+    
+    currentProvider = newProvider;
+    localStorage.setItem('llm_provider', currentProvider);
+    updateToggleUI(currentProvider);
+});
+
+initProvider();

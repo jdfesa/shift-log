@@ -141,6 +141,56 @@ body {
     gap: 12px;
 }
 
+/* ── Provider Toggle ─────────────────────────── */
+.provider-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.provider-label {
+    font-size: 14px;
+    opacity: 0.4;
+    transition: var(--transition);
+}
+
+.provider-label.active {
+    opacity: 1;
+}
+
+.toggle-track {
+    width: 36px;
+    height: 20px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    position: relative;
+    transition: var(--transition);
+}
+
+.toggle-track.cloud {
+    background: var(--accent-subtle);
+    border-color: var(--accent);
+}
+
+.toggle-thumb {
+    width: 14px;
+    height: 14px;
+    background: var(--text-secondary);
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toggle-track.cloud .toggle-thumb {
+    left: 18px;
+    background: var(--accent);
+}
+
 .header-btn {
     background: var(--bg-secondary);
     border: 1px solid var(--border);

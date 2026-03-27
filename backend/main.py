@@ -11,6 +11,7 @@ from fastapi.responses import FileResponse
 from database import init_db
 from routes.chat import router as chat_router
 from routes.tasks import router as tasks_router
+from services.llm_service import get_provider, set_provider, get_groq_key
 from config import HOST, PORT
 
 
@@ -32,6 +33,24 @@ app = FastAPI(
 # Registrar routers
 app.include_router(chat_router)
 app.include_router(tasks_router)
+
+
+@app.get("/api/provider")
+async def get_current_provider():
+    """Devuelve el proveedor LLM activo."""
+    return {"provider": get_provider(), "has_key": bool(get_groq_key())}
+
+
+@app.post("/api/provider")
+async def switch_provider(body: dict):
+    """Cambia el proveedor LLM activo."""
+    provider = body.get("provider", "ollama")
+    api_key = body.get("api_key")
+    try:
+        set_provider(provider, api_key)
+        return {"provider": get_provider(), "status": "ok"}
+    except ValueError as e:
+        return {"error": str(e)}
 
 # Servir archivos estáticos del frontend
 frontend_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "frontend")

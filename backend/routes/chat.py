@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from models import ChatRequest, ChatResponse
-from services.ollama_service import query_ollama
+from services.llm_service import query_llm
 from services.intent_parser import process_intent
 
 router = APIRouter(prefix="/api")
@@ -8,9 +8,9 @@ router = APIRouter(prefix="/api")
 
 @router.post("/chat", response_model=ChatResponse)
 async def chat(request: ChatRequest):
-    """Endpoint principal del chat. Recibe un mensaje, lo parsea con Ollama y ejecuta la acción."""
-    # 1. Enviar mensaje a Ollama para parsear la intención
-    intent = await query_ollama(request.message)
+    """Endpoint principal del chat. Recibe un mensaje, lo parsea con el LLM activo y ejecuta la acción."""
+    # 1. Enviar mensaje al LLM activo para parsear la intención
+    intent = await query_llm(request.message)
     intent["_raw_message"] = request.message
 
     # 2. Procesar la intención y ejecutar la acción
