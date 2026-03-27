@@ -90,14 +90,25 @@ body {
 .logo {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 }
 
-.logo-img {
+.logo-container {
     width: 32px;
     height: 32px;
-    object-fit: contain;
-    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+}
+
+.logo-container img {
+    width: 145%;
+    height: 145%;
+    object-fit: cover;
 }
 
 .logo h1 {
@@ -263,6 +274,22 @@ body {
     border-radius: 4px;
     font-size: 13px;
     font-family: 'SF Mono', 'Fira Code', monospace;
+}
+
+.message-avatar.is-bot {
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--border-light);
+}
+
+.bot-avatar-img {
+    width: 150%;
+    height: 150%;
+    object-fit: cover;
 }
 
 /* ── Typing Indicator ────────────────────────── */

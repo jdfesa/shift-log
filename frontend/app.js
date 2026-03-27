@@ -33,7 +33,12 @@ function createMessageElement(content, isUser = false) {
 
     const avatar = document.createElement('div');
     avatar.className = 'message-avatar';
-    avatar.textContent = isUser ? '👤' : '⚡';
+    if (isUser) {
+        avatar.textContent = '👤';
+    } else {
+        avatar.classList.add('is-bot');
+        avatar.innerHTML = '<img src="/static/logo.png" class="bot-avatar-img">';
+    }
 
     const bubble = document.createElement('div');
     bubble.className = 'message-content';
@@ -51,8 +56,8 @@ function showTypingIndicator() {
     msg.id = 'typing-msg';
 
     const avatar = document.createElement('div');
-    avatar.className = 'message-avatar';
-    avatar.textContent = '⚡';
+    avatar.className = 'message-avatar is-bot';
+    avatar.innerHTML = '<img src="/static/logo.png" class="bot-avatar-img">';
 
     const bubble = document.createElement('div');
     bubble.className = 'message-content';
