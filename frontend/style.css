@@ -624,6 +624,18 @@ body {
     color: var(--accent);
 }
 
+.schedule-table .today-day {
+    color: #f5c542 !important;
+}
+
+.schedule-table .today-row {
+    background: rgba(245, 197, 66, 0.06);
+}
+
+.schedule-table .today-row td {
+    color: #f5c542;
+}
+
 .schedule-table .time-cell {
     color: var(--text-muted);
     font-family: 'SF Mono', 'Fira Code', monospace;

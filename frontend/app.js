@@ -224,6 +224,10 @@ function renderSchedulePage() {
     const currentInst = institutionsList[currentInstIndex];
     const pageData = scheduleData.filter(d => (d.institucion || 'Institution') === currentInst);
     
+    // Detectar el día actual en español
+    const diasES = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+    const todayDia = diasES[new Date().getDay()];
+    
     let html = `<div class="schedule-inst-header">
         <h3>${currentInst}</h3>
     </div>`;
@@ -233,14 +237,16 @@ function renderSchedulePage() {
     let currentDay = null;
     for (const item of pageData) {
         const englishDay = dayMap[item.dia] || item.dia;
+        const isToday = item.dia === todayDia;
+        const rowClass = isToday ? ' class="today-row"' : '';
         let dayCell = '';
         if (item.dia !== currentDay) {
             const dayItemsCount = pageData.filter(d => d.dia === item.dia).length;
-            dayCell = `<td rowspan="${dayItemsCount}" class="day-cell"><strong>${englishDay}</strong></td>`;
+            dayCell = `<td rowspan="${dayItemsCount}" class="day-cell${isToday ? ' today-day' : ''}"><strong>${englishDay}</strong></td>`;
             currentDay = item.dia;
         }
         
-        html += `<tr>${dayCell}
+        html += `<tr${rowClass}>${dayCell}
             <td class="time-cell">${item.hora_inicio} - ${item.hora_fin}</td>
             <td>${item.materia}</td>
         </tr>`;
