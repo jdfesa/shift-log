@@ -39,11 +39,11 @@ con la intención del usuario. No respondas con texto, solo JSON."
 
 Luego se enumeran:
 
-- **Acciones posibles**: `consultar_horarios`, `consultar_tareas`, `crear_tarea`, `actualizar_estado`, `eliminar_tarea`, `saludo`
+- **Acciones posibles**: `consultar_horarios`, `consultar_tareas`, `crear_tarea`, `actualizar_estado`, `eliminar_tarea`, `saludo`, `ayuda`
 - **Tipos de tarea**: `tp`, `parcial`, `recordatorio`, `otro`
 - **Estados**: `pendiente`, `en_proceso`, `completada`
 - **Prioridades**: `alta`, `media`, `baja`
-- **Filtros de fecha**: `hoy`, `mañana`, `esta_semana`, `proxima_semana`, `YYYY-MM-DD`
+- **Filtros de fecha**: `hoy`, `mañana`, `esta_semana`, `proxima_semana`, `todos`, `YYYY-MM-DD`
 
 ### Formato de respuesta esperado
 
@@ -113,6 +113,13 @@ Recibe el JSON parseado y determina qué función de `task_service.py` ejecutar.
 | `actualizar_estado` | `update_tarea_estado(titulo, materia, nuevo_estado)` |
 | `eliminar_tarea` | `delete_tarea(titulo, materia)` |
 | `saludo` | Respuesta aleatoria de bienvenida |
+| `ayuda` | Guía rápida de comandos e instrucciones |
+
+### Mecanismos de Robustez Conversacional
+
+- **Extracción de Día (Fallback):** Si el LLM no logra extraer el día de la semana de un mensaje corto (ej: "y el sabado?"), el `intent_parser` realiza un escaneo manual del mensaje original para identificar el día mencionado.
+- **Validación de Información Incompleta:** Si el usuario pide cargar una tarea pero no especifica un título, el sistema solicita los detalles faltantes en lugar de crear un registro vacío.
+- **Detección de Duplicados:** Antes de crear una tarea, se verifica en la base de datos si ya existe una tarea pendiente con el mismo nombre y materia para evitar redundancias.
 
 **Formateo de respuestas:**
 

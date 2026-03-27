@@ -133,6 +133,16 @@ Shift Log es un gestor personal de tiempo y tareas con interfaz conversacional. 
 
 ---
 
+## Robustez y Estabilidad
+
+### Manejo de Conexiones de Base de Datos
+Para garantizar que la base de datos SQLite no quede bloqueada (error `database is locked`), todas las operaciones en el backend utilizan un patrón de **cierre garantizado** mediante bloques `try...finally`. Esto asegura que `conn.close()` se ejecute incluso si ocurre un error inesperado durante la ejecución de una consulta.
+
+### Timeouts de LLM
+Debido a que el modelo local puede tardar en cargar o procesar prompts complejos, el timeout de conexión con Ollama se configuró en **60 segundos** en el `ollama_service.py`, evitando fallos prematuros en máquinas con recursos limitados.
+
+---
+
 ## Diseño visual
 
 ### Paleta de colores (Obsidian/Notion dark mode)

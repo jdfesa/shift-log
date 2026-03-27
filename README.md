@@ -46,6 +46,7 @@ The system interprets your intent using a **local LLM** (via Ollama), executes t
 - 🧠 **Local LLM** — Powered by Ollama, 100% private, no API costs
 - 📅 **Schedule management** — Fixed class schedules per semester
 - ✅ **Task lifecycle** — States: `pending` → `in progress` → `completed` / `overdue`
+- 🗓️ **Weekly Schedule Modal** — Quick access to a full, paginated table of your classes (IES 6023, UNSa, etc.)
 - ⏰ **Automatic overdue detection** — Tasks past their deadline are flagged
 - 📱 **Mobile-ready** — Responsive design, accessible via local network
 - 🪶 **Lightweight** — Vanilla HTML/CSS/JS frontend, SQLite database
