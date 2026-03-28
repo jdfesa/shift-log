@@ -512,6 +512,25 @@ async function fetchTasks() {
     }
 }
 
+// ── Help Modal Logic ─────────────────────────
+const btnHelp = document.getElementById('btn-help');
+const helpModal = document.getElementById('help-modal');
+const closeHelpBtn = document.getElementById('close-help-btn');
+
+function openHelpModal() {
+    helpModal.classList.add('visible');
+}
+
+function closeHelpModal() {
+    helpModal.classList.remove('visible');
+}
+
+btnHelp.addEventListener('click', openHelpModal);
+closeHelpBtn.addEventListener('click', closeHelpModal);
+helpModal.addEventListener('click', (e) => {
+    if (e.target === helpModal) closeHelpModal();
+});
+
 // ── Provider Toggle Logic ─────────────────────
 const providerToggle = document.getElementById('provider-toggle');
 const toggleTrack = providerToggle.querySelector('.toggle-track');

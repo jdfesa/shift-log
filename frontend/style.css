@@ -125,6 +125,90 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
+.help-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 50%;
+    margin-left: 4px;
+    transition: var(--transition);
+}
+
+.help-btn:hover {
+    color: var(--accent);
+    background: var(--bg-hover);
+}
+
+.help-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+}
+
+.help-section h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.help-section p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.help-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.help-list li {
+    font-size: 14px;
+    color: var(--text-secondary);
+    background: var(--bg-input);
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+}
+
+.help-list.examples li {
+    background: transparent;
+    border: 1px dashed var(--border-light);
+    color: var(--text-primary);
+    font-style: italic;
+}
+
+.help-list code {
+    background: var(--bg-primary);
+    color: var(--accent);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 13px;
+    margin-right: 6px;
+}
+
+.help-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
 .header-badge {
     font-size: 11px;
     font-weight: 500;
@@ -657,7 +741,9 @@ body {
     font-weight: 600;
 }
 
-#close-modal-btn {
+#close-modal-btn,
+#close-tasks-btn,
+#close-help-btn {
     background: none;
     border: none;
     color: var(--text-muted);
@@ -667,7 +753,9 @@ body {
     transition: color var(--transition);
 }
 
-#close-modal-btn:hover {
+#close-modal-btn:hover,
+#close-tasks-btn:hover,
+#close-help-btn:hover {
     color: var(--danger);
 }
 

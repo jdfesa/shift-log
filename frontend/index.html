@@ -26,6 +26,7 @@
                     <h1 class="logo-text">Shift Log</h1>
                 </div>
                 <div class="header-actions">
+                    <button id="btn-help" class="header-btn" title="Guía de uso">Help</button>
                     <button id="btn-tasks" class="header-btn">Tasks</button>
                     <button id="btn-schedule" class="header-btn">Schedule</button>
                     <div class="provider-toggle" id="provider-toggle" title="Switch LLM Provider">
@@ -111,6 +112,69 @@
             </div>
             <div class="modal-body" id="tasks-container">
                 <!-- Tasks will be injected here via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div id="help-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Guía Rápida - Shift Log</h2>
+                <button id="close-help-btn" aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="modal-body help-content">
+                <div class="help-section">
+                    <h3>📌 ¿Qué puedo hacer?</h3>
+                    <p>Shift Log es tu asistente conversacional. Escribile de forma natural para organizar tus
+                        responsabilidades universitarias. Principalmente maneja <strong>horarios de clases</strong> y
+                        <strong>tareas/exámenes</strong>.
+                    </p>
+                </div>
+
+                <div class="help-section">
+                    <h3>💬 ¿Qué le puedo pedir al bot?</h3>
+                    <ul class="help-list">
+                        <li><strong>📅 Consultar horarios:</strong> Preguntá qué clases tenés hoy, mañana o un día específico de la semana.</li>
+                        <li><strong>📋 Ver tareas:</strong> Pedile ver tus tareas pendientes, o filtralas por materia y fecha (ej. "tareas de esta semana").</li>
+                        <li><strong>➕ Agregar tareas:</strong> Decile que te anote un TP, parcial o entrega, indicando materia y fecha.</li>
+                        <li><strong>✅ Actualizar estados:</strong> Avisale cuando termines una tarea o si la empezaste, para mantener tu lista al día.</li>
+                        <li><strong>🗑️ Borrar tareas:</strong> Pedile que elimine alguna tarea que ya no necesites.</li>
+                        <li><strong>⚙️ Proveedor LLM:</strong> Alterná entre modo local (Ollama) o nube (Groq) con el botón de la barra superior.</li>
+                    </ul>
+                </div>
+
+                <div class="help-section">
+                    <h3>🤖 Comandos Rápidos</h3>
+                    <ul class="help-list">
+                        <li><code>/ayuda</code> - Ver sugerencias del bot.</li>
+                        <li><code>/horario</code> - Consultar tus horarios de cursada actuales.</li>
+                        <li><code>/tareas</code> - Ver tu lista de tareas pendientes, atrasadas o terminadas.</li>
+                    </ul>
+                </div>
+
+                <div class="help-section">
+                    <h3>📋 Estados de una Tarea</h3>
+                    <p>Al agregar una tarea, podés cambiar su estado diciéndoselo al bot. Las tareas pasan por los
+                        siguientes estados:</p>
+                    <div class="help-badges">
+                        <span class="badge badge-estado-pendiente">Pendiente</span>
+                        <span class="badge badge-estado-en_proceso">En Proceso</span>
+                        <span class="badge badge-estado-completada">Completada</span>
+                        <span class="badge badge-estado-atrasada">Atrasada</span>
+                    </div>
+                </div>
+
+                <div class="help-section">
+                    <h3>💡 Ejemplos de uso</h3>
+                    <ul class="help-list examples">
+                        <li>"Agendame un parcial de Álgebra para el 15/04."</li>
+                        <li>"Ya terminé el TP1 de Programación."</li>
+                        <li>"¿A qué hora curso mañana?"</li>
+                        <li>"Eliminar el TP de Algoritmos."</li>
+                        <li>"¿Qué tengo pendiente esta semana?"</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
